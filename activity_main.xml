@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/app_name"
+            android:textSize="26sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="Quand un mail Outlook cite ton nom, il est traduit en français, affiché sur l'écran de verrouillage et lu à voix haute."
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="#EEF2F7"
+            android:padding="12dp"
+            android:textSize="15sp" />
+
+        <Button
+            android:id="@+id/access"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="1. Autoriser l'accès aux notifications" />
+
+        <Button
+            android:id="@+id/download"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="2. Télécharger les traductions (hors-ligne)" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Noms à détecter (séparés par des virgules)"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/names"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Tony, Kaseki"
+            android:inputType="textPersonName" />
+
+        <Button
+            android:id="@+id/save"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Enregistrer les noms" />
+
+        <Switch
+            android:id="@+id/voice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Lire les mails à voix haute" />
+
+        <Switch
+            android:id="@+id/silent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Ne pas parler en mode silencieux / vibreur" />
+
+        <Button
+            android:id="@+id/test"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="🔊 Tester avec un faux mail en anglais" />
+
+        <Button
+            android:id="@+id/replay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Relire le dernier mail" />
+
+        <Button
+            android:id="@+id/stop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Arrêter la lecture" />
+    </LinearLayout>
+</ScrollView>
