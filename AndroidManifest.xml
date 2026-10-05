@@ -7,6 +7,10 @@
     <!-- Pour pouvoir ouvrir Outlook depuis la notification (Android 11+) -->
     <queries>
         <package android:name="com.microsoft.office.outlook" />
+        <package android:name="com.microsoft.outlooklite" />
+        <intent>
+            <action android:name="android.intent.action.TTS_SERVICE" />
+        </intent>
     </queries>
 
     <application

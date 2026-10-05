@@ -12,7 +12,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/app_name"
+            android:text="Mail Traducteur 1.1"
             android:textSize="26sp"
             android:textStyle="bold" />
 
@@ -24,19 +24,27 @@
             android:textSize="15sp" />
 
         <TextView
-            android:id="@+id/status"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:text="Diagnostic"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
             android:background="#EEF2F7"
+            android:lineSpacingExtra="4dp"
             android:padding="12dp"
-            android:textSize="15sp" />
+            android:textSize="14sp" />
 
         <Button
             android:id="@+id/access"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="12dp"
             android:text="1. Autoriser l'accès aux notifications" />
 
         <Button
@@ -44,6 +52,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="2. Télécharger les traductions (hors-ligne)" />
+
+        <Button
+            android:id="@+id/notifPerm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="3. Autoriser les notifications de l'appli" />
+
+        <Button
+            android:id="@+id/battery"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="4. Réglages de l'appli (batterie : Non restreinte)" />
 
         <TextView
             android:layout_width="match_parent"
@@ -79,11 +99,36 @@
             android:layout_marginTop="8dp"
             android:text="Ne pas parler en mode silencieux / vibreur" />
 
+        <Switch
+            android:id="@+id/allMails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Mode essai : réagir à TOUS les mails Outlook" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Tests"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/voiceTest"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="🗣 Tester la voix seule" />
+
+        <Button
+            android:id="@+id/installVoice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Installer la voix française" />
+
         <Button
             android:id="@+id/test"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
             android:text="🔊 Tester avec un faux mail en anglais" />
 
         <Button
@@ -97,5 +142,42 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Arrêter la lecture" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Journal (le plus récent en haut)"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/refresh"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Actualiser" />
+
+            <Button
+                android:id="@+id/clear"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Effacer" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/journal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#F6F6F6"
+            android:fontFamily="monospace"
+            android:padding="10dp"
+            android:textIsSelectable="true"
+            android:textSize="12sp" />
     </LinearLayout>
 </ScrollView>

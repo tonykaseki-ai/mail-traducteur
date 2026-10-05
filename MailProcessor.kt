@@ -16,7 +16,9 @@ object MailProcessor {
 
     fun process(context: Context, mail: MailInfo) {
         val app = context.applicationContext
-        FrTranslator.toFrench(mail.textToTranslate) { result ->
+        Speaker.init(app)
+        Journal.log(app, "Traitement du mail de « ${mail.sender} »…")
+        FrTranslator.toFrench(app, mail.textToTranslate) { result ->
             val sender = mail.sender.ifEmpty { "Expéditeur inconnu" }
             val langName = java.util.Locale(result.sourceLang).getDisplayLanguage(java.util.Locale.FRENCH)
             val header = if (result.translated) "Traduit de l'$langName" else "Mail en français"
@@ -29,8 +31,13 @@ object MailProcessor {
 
             showNotification(app, mail, sender, header, result)
 
-            if (Prefs.voiceEnabled(app) && canSpeak(app)) {
-                Speaker.speak(app, spoken)
+            when {
+                !Prefs.voiceEnabled(app) -> Journal.log(app, "Voix désactivée dans les réglages")
+                !canSpeak(app) -> Journal.log(app, "🔇 Téléphone en silencieux/vibreur : pas de lecture")
+                else -> {
+                    Journal.log(app, "🔊 Lecture à voix haute")
+                    Speaker.speak(app, spoken)
+                }
             }
         }
     }
@@ -85,10 +92,14 @@ object MailProcessor {
             builder.setContentIntent(PendingIntent.getActivity(c, id + 2, launch, flags))
         }
 
+        if (!nm.areNotificationsEnabled()) {
+            Journal.log(c, "⚠ Notifications de Mail Traducteur bloquées dans les réglages Android")
+        }
         try {
             nm.notify(id, builder.build())
+            Journal.log(c, "📩 Notification affichée")
         } catch (e: SecurityException) {
-            // Permission de notification refusée : la voix fonctionne quand même.
+            Journal.log(c, "❌ Notification refusée : ${e.message}")
         }
     }
 }

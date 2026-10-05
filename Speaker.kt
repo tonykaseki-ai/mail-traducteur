@@ -6,37 +6,53 @@ import android.speech.tts.TextToSpeech
 import java.util.Locale
 
 /** Lecture à voix haute en français. */
-object Speaker : TextToSpeech.OnInitListener {
+object Speaker {
 
     private var tts: TextToSpeech? = null
     private var ready = false
     private val pending = mutableListOf<String>()
+    private var appContext: Context? = null
 
-    private fun ensure(context: Context) {
-        if (tts == null) {
-            tts = TextToSpeech(context.applicationContext, this)
-        }
+    /** Texte d'état lisible, affiché dans l'appli. */
+    var status: String = "Voix pas encore initialisée"
+        private set
+    var frenchMissing = false
+        private set
+
+    fun init(context: Context) {
+        if (tts != null) return
+        val c = context.applicationContext
+        appContext = c
+        status = "Voix en cours d'initialisation…"
+        tts = TextToSpeech(c) { code -> onInit(code) }
     }
 
-    override fun onInit(status: Int) {
-        if (status == TextToSpeech.SUCCESS) {
-            tts?.language = Locale.FRENCH
-            tts?.setAudioAttributes(
-                AudioAttributes.Builder()
-                    .setUsage(AudioAttributes.USAGE_ASSISTANT)
-                    .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
-                    .build()
-            )
-            ready = true
-            pending.forEach { say(it) }
-        } else {
+    private fun onInit(code: Int) {
+        val c = appContext
+        if (code != TextToSpeech.SUCCESS) {
+            status = "❌ Moteur de synthèse vocale indisponible"
+            c?.let { Journal.log(it, status) }
             tts = null
+            pending.clear()
+            return
         }
+        val res = tts?.setLanguage(Locale.FRENCH) ?: TextToSpeech.LANG_NOT_SUPPORTED
+        frenchMissing = res == TextToSpeech.LANG_MISSING_DATA || res == TextToSpeech.LANG_NOT_SUPPORTED
+        tts?.setAudioAttributes(
+            AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_ASSISTANT)
+                .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
+                .build()
+        )
+        status = if (frenchMissing) "⚠ Voix française non installée" else "✅ Voix française prête"
+        c?.let { Journal.log(it, status) }
+        ready = true
+        pending.forEach { say(it) }
         pending.clear()
     }
 
     fun speak(context: Context, text: String) {
-        ensure(context)
+        init(context)
         if (ready) say(text) else pending.add(text)
     }
 
@@ -47,7 +63,8 @@ object Speaker : TextToSpeech.OnInitListener {
     private fun say(text: String) {
         val max = TextToSpeech.getMaxSpeechInputLength() - 50
         text.chunked(max).forEach { part ->
-            tts?.speak(part, TextToSpeech.QUEUE_ADD, null, "mail-" + System.nanoTime())
+            val r = tts?.speak(part, TextToSpeech.QUEUE_ADD, null, "mail-" + System.nanoTime())
+            if (r != TextToSpeech.SUCCESS) appContext?.let { Journal.log(it, "❌ La voix a refusé de lire (code $r)") }
         }
     }
 }
